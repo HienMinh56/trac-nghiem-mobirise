@@ -1,0 +1,797 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Bài Trắc Nghiệm - Mobirise & Web Design</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@400;600;700&family=DM+Sans:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --primary: #1a1a2e;
+        --secondary: #16213e;
+        --accent: #e94560;
+        --light: #f1f1f1;
+        --success: #06d6a0;
+        --error: #ef476f;
+        --warning: #ffd166;
+      }
+
+      body {
+        font-family: "DM Sans", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        top: -50%;
+        right: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(
+          circle,
+          rgba(255, 255, 255, 0.1) 1px,
+          transparent 1px
+        );
+        background-size: 50px 50px;
+        animation: drift 60s linear infinite;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      @keyframes drift {
+        from {
+          transform: rotate(0deg);
+        }
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+        z-index: 1;
+      }
+
+      header {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 24px;
+        padding: 40px;
+        margin-bottom: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+        text-align: center;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        animation: slideDown 0.6s ease-out;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      h1 {
+        font-family: "Crimson Pro", serif;
+        font-size: 2.8em;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 12px;
+        letter-spacing: -0.5px;
+      }
+
+      .subtitle {
+        font-size: 1.1em;
+        color: #666;
+        font-weight: 400;
+      }
+
+      .section {
+        background: rgba(255, 255, 255, 0.98);
+        border-radius: 24px;
+        padding: 40px;
+        margin-bottom: 30px;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255, 255, 255, 0.5);
+        animation: fadeInUp 0.6s ease-out forwards;
+        opacity: 0;
+      }
+
+      .section:nth-child(2) {
+        animation-delay: 0.1s;
+      }
+      .section:nth-child(3) {
+        animation-delay: 0.2s;
+      }
+
+      @keyframes fadeInUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .section-title {
+        font-family: "Crimson Pro", serif;
+        font-size: 1.8em;
+        font-weight: 700;
+        color: var(--primary);
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid var(--accent);
+        display: inline-block;
+      }
+
+      .question {
+        margin-bottom: 35px;
+        padding: 25px;
+        background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        border-radius: 16px;
+        border-left: 5px solid var(--accent);
+        transition: all 0.3s ease;
+      }
+
+      .question:hover {
+        transform: translateX(5px);
+        box-shadow: 0 8px 20px rgba(233, 69, 96, 0.15);
+      }
+
+      .question-text {
+        font-size: 1.15em;
+        font-weight: 600;
+        color: var(--primary);
+        margin-bottom: 18px;
+        line-height: 1.6;
+      }
+
+      .question-number {
+        color: var(--accent);
+        font-weight: 700;
+      }
+
+      .options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .option {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        background: white;
+        border: 2px solid #e0e0e0;
+        border-radius: 12px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .option::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        width: 0;
+        background: linear-gradient(
+          90deg,
+          rgba(102, 126, 234, 0.1),
+          rgba(118, 75, 162, 0.1)
+        );
+        transition: width 0.3s ease;
+        z-index: 0;
+      }
+
+      .option:hover::before {
+        width: 100%;
+      }
+
+      .option:hover {
+        border-color: var(--accent);
+        transform: translateX(3px);
+      }
+
+      .option input[type="radio"],
+      .option input[type="checkbox"] {
+        margin-right: 15px;
+        width: 20px;
+        height: 20px;
+        cursor: pointer;
+        accent-color: var(--accent);
+        position: relative;
+        z-index: 1;
+      }
+
+      .option label {
+        cursor: pointer;
+        font-size: 1.05em;
+        color: #333;
+        flex: 1;
+        position: relative;
+        z-index: 1;
+      }
+
+      .option.correct {
+        background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+        border-color: var(--success);
+        animation: correctPulse 0.6s ease;
+      }
+
+      .option.incorrect {
+        background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+        border-color: var(--error);
+        animation: shake 0.5s ease;
+      }
+
+      @keyframes correctPulse {
+        0%,
+        100% {
+          transform: scale(1);
+        }
+        50% {
+          transform: scale(1.02);
+        }
+      }
+
+      @keyframes shake {
+        0%,
+        100% {
+          transform: translateX(0);
+        }
+        25% {
+          transform: translateX(-5px);
+        }
+        75% {
+          transform: translateX(5px);
+        }
+      }
+
+      .result-icon {
+        margin-left: auto;
+        font-size: 1.3em;
+        font-weight: bold;
+        position: relative;
+        z-index: 1;
+      }
+
+      .option.correct .result-icon {
+        color: var(--success);
+      }
+
+      .option.incorrect .result-icon {
+        color: var(--error);
+      }
+
+      .submit-btn {
+        background: linear-gradient(135deg, var(--accent) 0%, #c81e4d 100%);
+        color: white;
+        border: none;
+        padding: 18px 50px;
+        font-size: 1.2em;
+        font-weight: 700;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(233, 69, 96, 0.3);
+        display: block;
+        margin: 30px auto;
+        font-family: "DM Sans", sans-serif;
+        letter-spacing: 0.5px;
+      }
+
+      .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 30px rgba(233, 69, 96, 0.4);
+      }
+
+      .submit-btn:active {
+        transform: translateY(0);
+      }
+
+      .submit-btn:disabled {
+        background: #ccc;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .result-summary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 35px;
+        border-radius: 20px;
+        text-align: center;
+        margin-top: 30px;
+        box-shadow: 0 15px 40px rgba(102, 126, 234, 0.4);
+        animation: scaleIn 0.5s ease;
+      }
+
+      @keyframes scaleIn {
+        from {
+          opacity: 0;
+          transform: scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .result-summary h2 {
+        font-family: "Crimson Pro", serif;
+        font-size: 2.2em;
+        margin-bottom: 15px;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .score {
+        font-size: 3.5em;
+        font-weight: 700;
+        margin: 20px 0;
+        text-shadow: 0 3px 15px rgba(0, 0, 0, 0.3);
+        font-family: "Crimson Pro", serif;
+      }
+
+      .reset-btn {
+        background: white;
+        color: var(--accent);
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.1em;
+        font-weight: 600;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-top: 20px;
+        font-family: "DM Sans", sans-serif;
+      }
+
+      .reset-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(255, 255, 255, 0.3);
+      }
+
+      .icon-display {
+        font-size: 2em;
+        margin: 0 5px;
+      }
+
+      .true-false-section .question {
+        border-left-color: #667eea;
+      }
+
+      @media (max-width: 768px) {
+        h1 {
+          font-size: 2em;
+        }
+
+        .section {
+          padding: 25px;
+        }
+
+        header {
+          padding: 30px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>📝 Bài Kiểm Tra Trắc Nghiệm</h1>
+        <p class="subtitle">Mobirise & Thiết Kế Website</p>
+      </header>
+
+      <!-- Phần A: Trắc nghiệm nhiều phương án lựa chọn -->
+      <div class="section">
+        <h2 class="section-title">
+          A. Phần Trắc Nghiệm Nhiều Phương Án Lựa Chọn
+        </h2>
+
+        <!-- Câu 1 -->
+        <div class="question" data-question="1" data-answer="D">
+          <p class="question-text">
+            <span class="question-number">Câu 1.</span> Phần mềm tạo website nào
+            sau đây là phần mềm ngoại tuyến? (Offline)
+          </p>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q1" value="A" id="q1a" />
+              <label for="q1a">A. Weebly.</label>
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q1" value="B" id="q1b" />
+              <label for="q1b">B. Adobe Creative.</label>
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q1" value="C" id="q1c" />
+              <label for="q1c">C. Google Sites.</label>
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q1" value="D" id="q1d" />
+              <label for="q1d">D. Nicepage.</label>
+              <span class="result-icon"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Câu 2 -->
+        <div class="question" data-question="2" data-answer="C">
+          <p class="question-text">
+            <span class="question-number">Câu 2.</span> Màn hình làm việc của
+            phần mềm Mobirise gồm những thành phần chính nào?
+          </p>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q2" value="A" id="q2a" />
+              <label for="q2a"
+                >A. Thanh công cụ, vùng làm việc, các thẻ chức năng.</label
+              >
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q2" value="B" id="q2b" />
+              <label for="q2b"
+                >B. Thanh công cụ, vùng làm việc, vùng hiển thị kết quả.</label
+              >
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q2" value="C" id="q2c" />
+              <label for="q2c"
+                >C. Thanh công cụ, vùng làm việc, nút lệnh Add Block to
+                Page.</label
+              >
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q2" value="D" id="q2d" />
+              <label for="q2d"
+                >D. Thanh công cụ, vùng hiển thị kết quả, nút lệnh Add Block to
+                Page.</label
+              >
+              <span class="result-icon"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Câu 3 -->
+        <div class="question" data-question="3" data-answer="A">
+          <p class="question-text">
+            <span class="question-number">Câu 3.</span> Để xem trước trang web
+            trên trình duyệt web, người dùng cần nhấn chọn biểu tượng nào sau
+            đây trên thanh công cụ?
+          </p>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q3" value="A" id="q3a" />
+              <label for="q3a">A. 👁️ (Biểu tượng con mắt)</label>
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q3" value="B" id="q3b" />
+              <label for="q3b">B. ☁️ (Biểu tượng đám mây)</label>
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q3" value="C" id="q3c" />
+              <label for="q3c">C. 🔒 (Biểu tượng ổ khóa)</label>
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q3" value="D" id="q3d" />
+              <label for="q3d">D. 📱 (Biểu tượng điện thoại)</label>
+              <span class="result-icon"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Câu 4 -->
+        <div class="question" data-question="4" data-answer="C">
+          <p class="question-text">
+            <span class="question-number">Câu 4.</span> Thao tác thay đổi hình
+            ảnh trên trang web được thực hiện tại hộp thoại nào?
+          </p>
+          <div class="options">
+            <div class="option">
+              <input type="radio" name="q4" value="A" id="q4a" />
+              <label for="q4a">A. Edit Image.</label>
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q4" value="B" id="q4b" />
+              <label for="q4b">B. Image.</label>
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q4" value="C" id="q4c" />
+              <label for="q4c">C. Media Image.</label>
+              <span class="result-icon"></span>
+            </div>
+            <div class="option">
+              <input type="radio" name="q4" value="D" id="q4d" />
+              <label for="q4d">D. Set Image.</label>
+              <span class="result-icon"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phần B: Trắc nghiệm Đúng - Sai -->
+      <div class="section true-false-section">
+        <h2 class="section-title">B. Phần Trắc Nghiệm Đúng - Sai</h2>
+        <p style="color: #666; margin-bottom: 20px; font-style: italic">
+          * Chọn các câu ĐÚNG (có thể có nhiều đáp án đúng)
+        </p>
+
+        <div
+          class="question"
+          data-question="5"
+          data-answer="b,c"
+          data-type="checkbox"
+        >
+          <p class="question-text">
+            <span class="question-number">Câu 1.</span> Mobirise là phần mềm cho
+            phép tạo các website vừa và nhỏ.
+          </p>
+          <div class="options">
+            <div class="option" data-value="a">
+              <input type="checkbox" name="q5" value="a" id="q5a" />
+              <label for="q5a"
+                ><strong>a.</strong> Mobirise là phần mềm trực tuyến miễn phí.
+                (SAI)</label
+              >
+              <span class="result-icon"></span>
+            </div>
+            <div class="option" data-value="b">
+              <input type="checkbox" name="q5" value="b" id="q5b" />
+              <label for="q5b"
+                ><strong>b.</strong> Có thể sử dụng tài khoản Facebook để đăng
+                nhập sử dụng phần mềm. (ĐÚNG)</label
+              >
+              <span class="result-icon"></span>
+            </div>
+            <div class="option" data-value="c">
+              <input type="checkbox" name="q5" value="c" id="q5c" />
+              <label for="q5c"
+                ><strong>c.</strong> Mobirise cung cấp nhiều mẫu trang web có
+                kiểu bố cục, màu sắc và các chủ đề đa dạng, gợi ý cho người dùng
+                ý tưởng khi tạo các trang web mới. (ĐÚNG)</label
+              >
+              <span class="result-icon"></span>
+            </div>
+            <div class="option" data-value="d">
+              <input type="checkbox" name="q5" value="d" id="q5d" />
+              <label for="q5d"
+                ><strong>d.</strong> Khi thiết kế website với Mobirise, người
+                dùng chỉ có thể sử dụng sẵn các mẫu trang web được cung cấp sẵn.
+                (SAI)</label
+              >
+              <span class="result-icon"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button class="submit-btn" onclick="checkAnswers()">Nộp Bài</button>
+
+      <div id="result" style="display: none"></div>
+    </div>
+
+    <script>
+      let submitted = false;
+
+      function checkAnswers() {
+        if (submitted) return;
+
+        // Kiểm tra xem đã trả lời đủ câu chưa
+        const questions = document.querySelectorAll(".question");
+        let allAnswered = true;
+
+        questions.forEach((q) => {
+          const qNum = q.dataset.question;
+          const qType = q.dataset.type;
+
+          if (qType === "checkbox") {
+            const checked = document.querySelectorAll(
+              `input[name="q${qNum}"]:checked`,
+            );
+            if (checked.length === 0) {
+              allAnswered = false;
+            }
+          } else {
+            const selected = document.querySelector(
+              `input[name="q${qNum}"]:checked`,
+            );
+            if (!selected) {
+              allAnswered = false;
+            }
+          }
+        });
+
+        if (!allAnswered) {
+          alert("Vui lòng trả lời tất cả các câu hỏi trước khi nộp bài!");
+          return;
+        }
+
+        submitted = true;
+        let correctCount = 0;
+        const totalQuestions = questions.length;
+
+        questions.forEach((question) => {
+          const qNum = question.dataset.question;
+          const qType = question.dataset.type;
+
+          if (qType === "checkbox") {
+            // Xử lý câu hỏi checkbox (đúng/sai)
+            const correctAnswers = question.dataset.answer.split(",");
+            const selectedCheckboxes = question.querySelectorAll(
+              `input[name="q${qNum}"]:checked`,
+            );
+            const selectedValues = Array.from(selectedCheckboxes).map(
+              (cb) => cb.value,
+            );
+            const options = question.querySelectorAll(".option");
+
+            // Kiểm tra xem có chọn đúng tất cả đáp án đúng không
+            const isCorrect =
+              correctAnswers.length === selectedValues.length &&
+              correctAnswers.every((ans) => selectedValues.includes(ans));
+
+            if (isCorrect) {
+              correctCount++;
+            }
+
+            options.forEach((option) => {
+              const input = option.querySelector("input");
+              const icon = option.querySelector(".result-icon");
+              const value = option.dataset.value;
+
+              // Đánh dấu đáp án đúng
+              if (correctAnswers.includes(value)) {
+                option.classList.add("correct");
+                icon.textContent = "✓";
+              }
+
+              // Đánh dấu đáp án sai nếu được chọn
+              if (input.checked && !correctAnswers.includes(value)) {
+                option.classList.add("incorrect");
+                icon.textContent = "✗";
+              }
+
+              // Vô hiệu hóa input
+              input.disabled = true;
+            });
+          } else {
+            // Xử lý câu hỏi radio (trắc nghiệm thông thường)
+            const correctAnswer = question.dataset.answer;
+            const selected = document.querySelector(
+              `input[name="q${qNum}"]:checked`,
+            );
+            const options = question.querySelectorAll(".option");
+
+            options.forEach((option) => {
+              const input = option.querySelector("input");
+              const icon = option.querySelector(".result-icon");
+
+              // Hiển thị đáp án đúng
+              if (input.value === correctAnswer) {
+                option.classList.add("correct");
+                icon.textContent = "✓";
+              }
+
+              // Đánh dấu câu trả lời sai
+              if (
+                selected &&
+                input === selected &&
+                input.value !== correctAnswer
+              ) {
+                option.classList.add("incorrect");
+                icon.textContent = "✗";
+              }
+
+              // Vô hiệu hóa input
+              input.disabled = true;
+            });
+
+            // Đếm số câu đúng
+            if (selected && selected.value === correctAnswer) {
+              correctCount++;
+            }
+          }
+        });
+
+        // Hiển thị kết quả
+        const score = ((correctCount / totalQuestions) * 10).toFixed(1);
+        const resultDiv = document.getElementById("result");
+
+        let message = "";
+        let emoji = "";
+        if (score >= 8) {
+          message = "Xuất sắc!";
+          emoji = "🎉";
+        } else if (score >= 6) {
+          message = "Khá tốt!";
+          emoji = "👍";
+        } else if (score >= 5) {
+          message = "Trung bình";
+          emoji = "📚";
+        } else {
+          message = "Cần cố gắng hơn";
+          emoji = "💪";
+        }
+
+        resultDiv.innerHTML = `
+                <div class="result-summary">
+                    <h2>${emoji} ${message}</h2>
+                    <div class="score">${score} điểm</div>
+                    <p style="font-size: 1.2em; margin-bottom: 10px;">Bạn trả lời đúng <strong>${correctCount}/${totalQuestions}</strong> câu</p>
+                    <button class="reset-btn" onclick="resetQuiz()">Làm lại</button>
+                </div>
+            `;
+        resultDiv.style.display = "block";
+
+        // Vô hiệu hóa nút nộp bài
+        document.querySelector(".submit-btn").disabled = true;
+
+        // Cuộn xuống kết quả
+        resultDiv.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+
+      function resetQuiz() {
+        submitted = false;
+
+        // Reset tất cả các câu hỏi
+        const questions = document.querySelectorAll(".question");
+        questions.forEach((question) => {
+          const options = question.querySelectorAll(".option");
+          options.forEach((option) => {
+            option.classList.remove("correct", "incorrect");
+            const input = option.querySelector("input");
+            input.checked = false;
+            input.disabled = false;
+            option.querySelector(".result-icon").textContent = "";
+          });
+        });
+
+        // Ẩn kết quả
+        document.getElementById("result").style.display = "none";
+
+        // Kích hoạt lại nút nộp bài
+        document.querySelector(".submit-btn").disabled = false;
+
+        // Cuộn lên đầu trang
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+    </script>
+  </body>
+</html>
